@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Base de données locale
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Exports locaux
+*.csv
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Environnements virtuels
+.venv/
+venv/
+
+# IDE / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
