@@ -883,6 +883,18 @@ titre_doublons.pack(
     pady=15
 )
 
+texte_resume_doublons = tk.StringVar()
+texte_resume_doublons.set("")
+
+label_resume_doublons = ttk.Label(
+    onglet_doublons,
+    textvariable=texte_resume_doublons,
+    font=("Segoe UI", 11, "bold")
+)
+
+label_resume_doublons.pack(
+    pady=(0, 10)
+)
 
 # ============================================================
 # RECHERCHE DANS LES DOUBLONS
@@ -1335,15 +1347,49 @@ def charger_doublons():
     )
 
     afficher_liste_doublons(
-        groupes_doublons
+    groupes_doublons
+)
+    
+    fichiers_en_trop = sum(
+    len(groupe["copies"]) - 1
+    for groupe in groupes_doublons
+)
+
+    espace_recuperable = sum(
+        groupe["gain"]
+        for groupe in groupes_doublons
     )
 
-    texte_statut.set(
-        (
-            f"{len(groupes_doublons)} "
-            "groupe(s) de doublons exacts."
-        )
+    texte_resume_doublons.set(
+        f"{len(groupes_doublons)} groupes — "
+        f"{fichiers_en_trop} fichiers en trop — "
+        f"{convertir_go(espace_recuperable)} Go récupérables"
     )
+
+# Résumé global des doublons
+fichiers_en_trop = sum(
+    len(groupe["copies"]) - 1
+    for groupe in groupes_doublons
+)
+
+espace_recuperable = sum(
+    groupe["gain"]
+    for groupe in groupes_doublons
+)
+
+texte_resume_doublons.set(
+    f"{len(groupes_doublons)} groupes — "
+    f"{fichiers_en_trop} fichiers en trop — "
+    f"{convertir_go(espace_recuperable)} Go récupérables"
+)
+
+texte_statut.set(
+    (
+        f"{len(groupes_doublons)} groupe(s) de doublons exacts — "
+        f"{fichiers_en_trop} fichier(s) en trop — "
+        f"{convertir_go(espace_recuperable)} Go récupérables"
+    )
+)
 
 
 # ============================================================
@@ -1544,11 +1590,12 @@ def rechercher_doublons():
         )
 
         texte_statut.set(
-            (
-                f"{len(groupes_doublons)} "
-                "groupe(s) de doublons exacts."
-            )
-        )
+    (
+        f"{len(groupes_doublons)} groupe(s) de doublons exacts — "
+        f"{fichiers_en_trop} fichier(s) en trop — "
+        f"{convertir_go(espace_recuperable)} Go récupérables"
+    )
+)
 
         return
 
