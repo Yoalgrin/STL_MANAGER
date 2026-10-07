@@ -563,8 +563,26 @@ def charger_sources():
     sources = (
         curseur.fetchall()
     )
+    # --------------------------------------------------------
+    # AJOUTER LES DISQUES CONNECTÉS ENCORE INCONNUS DE LA DB
+    # --------------------------------------------------------
+    sources_connues = {
+        source[0].lower()
+        for source in sources
+    }
 
+    for nom_source in sources_en_ligne:
 
+        if nom_source not in sources_connues:
+
+            sources.append(
+                (
+                    nom_source,
+                    "CLASSE",
+                    None,
+                    0
+                )
+            )    
     connexion.close()
 
 
